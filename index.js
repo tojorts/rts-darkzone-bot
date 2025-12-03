@@ -153,3 +153,9 @@ function handleMessage(sender_psid, received_message) {
 
   callSendAPI(sender_psid, response);
 }
+// =============== SERVER START ===================
+
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+  console.log(`Webhook en écoute sur le port ${PORT}`);
+});
