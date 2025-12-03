@@ -66,43 +66,61 @@ function handleMessage(senderPsid, receivedMessage) {
   let reply;
 
   // 🎯 Cas 1 : jeux simulation sur Android
-  if (has('android') && (has('simulation') || has('simu') || has('simulator'))) {
-    reply = {
-      text: [
-        'Ho an\'ny jeux simulation amin’ny Android, ireto no tsara be 🔥:',
-        '',
-        '- Proton Bus Simulator',
-        '- Proton Bus Road (PBSR)',
-        '- Bus Simulator Indonesia (BUSSID)',
-        '',
-        'Afaka asiana MOD koa @ ireny, indrindra ao @ Bussid 😈. Raha mila catégorie hafa (FPS, foot, open world, etc.) dia soraty fotsiny.'
-      ].join('\n')
+  if (message.text) {
+  const text = message.text.toLowerCase().trim();
+
+  let response;
+
+  // 1. Mod PROTON BUS
+  if (
+    text.includes('proton bus') ||
+    (text.includes('proton') && text.includes('bus'))
+  ) {
+    response = {
+      text:
+        "Mod Proton Bus Simulator ve no tadiavinao? 😏\n" +
+        "- Misy pack mod bus & cars RTS\n" +
+        "- Afaka manontany prix direct ato na mijery publications ao amin'ny page. 🚍"
+    };
+
+  // 2. Mod / Jeux BUSSID
+  } else if (text.includes('bussid')) {
+    response = {
+      text:
+        "Pour BUSSID dia misy mod bus & car koa an 😎\n" +
+        "Hijery ao amin'ny RTS DarkZone Mods na manoratra hoe 'mod bussid'."
+    };
+
+  // 3. “jeux simulation android”
+  } else if (
+    text.includes('android') &&
+    text.includes('jeux') &&
+    text.includes('simulation')
+  ) {
+    response = {
+      text:
+        "Jeux simulation android recommandés:\n" +
+        "- Proton Bus Simulator 2 🚍\n" +
+        "- BUSSID (Bus Simulator Indonesia) 🚌\n" +
+        "- Truckers of Europe 3 🚚\n" +
+        "Raha mila MOD dia soraty fotsiny hoe 'mod proton bus' na 'mod bussid'."
+    };
+
+  // 4. Fallback (valiny par défaut)
+  } else {
+    response = {
+      text:
+        "Tsy azoko tsara ilay fangatahana 😅\n" +
+        "Azonao soratana ohatra hoe:\n" +
+        "- 'jeux simulation android'\n" +
+        "- 'mod proton bus'\n" +
+        "- 'mod bussid'"
     };
   }
 
-  // 🎯 Cas 2 : général "jeux android"
-  else if (has('jeux') && has('android')) {
-    reply = {
-      text: 'Jeux Android ve no tadiavinao? Lazao fotsiny catégorie: simulation, fps, foot, open world… dia omeko liste 🔥'
-    };
-  }
-
-  // 🎯 Cas 3 : salutation
-  else if (has('salama') || has('bonjour') || has('hello') || has('coucou')) {
-    reply = {
-      text: 'Yooo 😄 Tongasoa ato @ RTS DarkZone Gaming! Afaka manontany jeux, mod, na config téléphone ianao.'
-    };
-  }
-
-  // 🎯 Fallback par défaut
-  else {
-    reply = {
-      text: 'Misaotra namandefa message 🙌. Raha mitady jeux dia lazao fotsiny catégorie (oh: "jeux simulation android", "fps android", sns.).'
-    };
-  }
-
-  return callSendAPI(senderPsid, reply);
+  callSendAPI(sender_psid, response);
 }
+
 
 // --- 4) Logic postback (raha mila boutons any aoriana) ---
 function handlePostback(senderPsid, postback) {
